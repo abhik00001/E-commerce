@@ -11,6 +11,7 @@ urlpatterns = [
 
 	path('signup', views.signup,),
 	path('addItem/', views.addItem,),
+	path('process_order/', views.process_order,),
 	path('log/', views.log,),
 	path('logout_this/', views.logout_this,),
 	# path('get/<int:id>', views.get_data, name="checkout"),

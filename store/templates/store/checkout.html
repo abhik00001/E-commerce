@@ -81,6 +81,7 @@
 
 <script type="text/javascript">
 	var shipping = '{{order.shipping}}'
+	var total = '{{order.get_cart_total}}'
 	if (shipping == 'False'){
 		document.getElementById("payment-info").classList.remove( "hidden" )
 		document.getElementById("shipping-info").classList.add( "hidden" )
@@ -100,7 +101,40 @@
 	} );
 
 	function submitaddress() {
-		alert("payment done")
+		var userformdata= {
+			'name':null,
+			'email':null,
+			'total':total
+		}
+		var shippingInfo ={
+			'address':null,
+			'city':null,
+			'state':null,
+			'zipcode':null,
+			'country':null,
+		}
+		if (shipping != "False"){
+			shippingInfo.address = form.address.value
+			shippingInfo.city = form.city.value
+			shippingInfo.state = form.state.value
+			shippingInfo.zipcode = form.zipcode.value
+			shippingInfo.country = form.country.value
+		}
+		
+		var url = "/process_order/";
+		fetch(url,{
+			method: 'POST',
+			headers:{
+				'Content-Type':'application/json',
+				"X-CSRFToken": csrftoken
+			},
+			body:JSON.stringify({'form':userformdata , "shipping": shippingInfo})
+		})
+		.then((response)=> response.json())
+		.then((data)=>{
+			alert("transaction complete")
+			window.location.href ="/"
+		})
 	}
 
 </script>

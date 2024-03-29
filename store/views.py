@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 import json
+import datetime
 
 
 # Create your views here.
@@ -136,3 +137,29 @@ def addItem(request):
     #  return JsonResponse("item added", safe=False)
 
     #  return render(request,"store/cart.html",context)
+
+def process_order(request):
+    transaction_id= datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order,create = Order.objects.get_or_create(customer=customer , complete = False)
+        total = float(data['form']['total'])
+        order.transaction_id = str(transaction_id)
+
+        if total == float(order.get_cart_total):
+            order.complete = True
+        order.save()
+
+        if order.shipping == True:
+            Shipping_Address.objects.create(
+                customer = customer,
+                order = order,
+                address = data['shipping']['address'],
+                city = data['shipping']['city'],
+                state = data['shipping']['state'],  
+                pincode = data['shipping']['zipcode'],
+                  
+            )
+    
+    return JsonResponse("payment successful", safe=False)
