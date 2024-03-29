@@ -49,6 +49,15 @@ class Order(models.Model):
         total = sum([item.get_total for item in items])
         return total
     
+    @property
+    def shipping(self):
+        shipping = False
+        orderItem = self.orderitem_set.all()
+        for i in  orderItem:
+            if i.product.digital == False:
+                shipping = True
+        return shipping
+    
         
     
 class OrderItem(models.Model):

@@ -47,7 +47,7 @@
 
         {% if request.user.is_authenticated %}
         <a href="/logout_this" class="btn btn-warning">Logout</a>
-        <p style="color: rgb(229, 225, 225); font-size: 15px; margin-left: 12px;">{{user.username}}</p>
+        <p style="color: rgb(229, 225, 225); font-size: 15px; margin-left: 12px;">{{user.customer}}</p>
         {% else %}
         <a href="{% url 'login_page' %}" class="btn btn-warning">Login</a>
         {% endif %}

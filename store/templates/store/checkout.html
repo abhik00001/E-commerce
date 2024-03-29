@@ -7,7 +7,7 @@
 			<form id="form">
 				<div id="user-info">
 					<div class="form-field">
-						<input required class="form-control" type="text" value="{{user.customer.name}} " name="name"
+						<input required class="form-control" type="text" value="{{user.customer.name}}" name="name"
 							placeholder="Name..">
 					</div>
 					<div class="form-field">
@@ -21,30 +21,34 @@
 					<p>Shipping Information:</p>
 					<hr>
 					<div class="form-field">
-						<input class="form-control" type="text" name="address" placeholder="Address..">
+						<input class="form-control" type="text" name="address" placeholder="Address.." required>
 					</div>
 					<div class="form-field">
-						<input class="form-control" type="text" name="city" placeholder="City..">
+						<input class="form-control" type="text" name="city" placeholder="City.." required>
 					</div>
 					<div class="form-field">
-						<input class="form-control" type="text" name="state" placeholder="State..">
+						<input class="form-control" type="text" name="state" placeholder="State.." required>
 					</div>
 					<div class="form-field">
-						<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+						<input class="form-control" type="text" name="zipcode" placeholder="Zip code.." required>
 					</div>
 					<div class="form-field">
-						<input class="form-control" type="text" name="country" placeholder="Zip code..">
+						<input class="form-control" type="text" name="country" placeholder="country" required>
 					</div>
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
 				</div>
 
-				<hr>
-				<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+			
+
 			</form>
 		</div>
 
 		<br>
-		<div class="box-element hidden" id="payment-info">
-			<small>Paypal Options</small>
+
+		<div class="box-element hidden" id="payment-info" style="display: flex; justify-content: space-between;">
+			<small ><img style="height: 18px;" src="/static/images/google-pay-logo-AA826E728D-seeklogo.com.png" alt=""></small> <strong>Google Pay</strong>
+			<button id="make-payment">Make Payment</button>
 		</div>
 
 	</div>
@@ -74,4 +78,30 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var shipping = '{{order.shipping}}'
+	if (shipping == 'False'){
+		document.getElementById("payment-info").classList.remove( "hidden" )
+		document.getElementById("shipping-info").classList.add( "hidden" )
+		console.log("false")	
+	};
+
+	var btn = document.getElementById("form-button")
+	btn.addEventListener("click",(e)=>{
+		e.preventDefault()
+		document.getElementById("payment-info").classList.remove( "hidden" )
+		console.log("true")
+	})
+
+	var submit = document.getElementById("make-payment")
+	submit.addEventListener('click', function(e) {
+		submitaddress();
+	} );
+
+	function submitaddress() {
+		alert("payment done")
+	}
+
+</script>
 {% endblock content %}
